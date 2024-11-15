@@ -1,0 +1,18 @@
+    <div class="features flex-row-center">
+        <div class="author flex-row-center">
+            <img src={{asset(picture)}} class="profilePic"/>
+            Demandé par							
+            <span class="nameAuthor spaceBetweenWords">{{username}}</span>
+            le 
+            <span class="createdAt spaceBetweenWords"> {{question.createdAt|format_datetime('short','none',locale='fr-fr')}}</span>
+            à
+            <span class="createdAt spaceBetweenWords"> {{question.createdAt|format_datetime('none','short',locale='fr-fr')}}</span>
+
+        </div>
+        {% if (from=='home') %}
+            <p class="answersNumber">
+                <i class="fa-regular fa-comment"></i>
+                {{question.answersNumber}}
+            </p>
+        {% endif %}
+    </div>

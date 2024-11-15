@@ -1,0 +1,60 @@
+@import url("general-style.css");
+
+main{
+    display:flex;
+    flex-direction:row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.sidebar {
+    background-color: white;
+    box-shadow:var(--box-shadow);
+
+    width: 15%;
+    height:75%;
+    margin-top:3%;
+    margin-left:5%;
+    padding-top:2rem;      
+}
+
+.askAQuestion {
+    box-shadow: var(--box-shadow);
+    border-radius: var(--border-radius);
+    background-color: var(--medium);
+    
+    text-align:center;
+
+    width:100%;
+    padding:0.5rem 0rem;
+    margin-bottom:1rem;
+
+}
+
+.askAQuestion a{
+    color:white;
+    font-size: larger;
+}
+
+
+.active.sideItem {
+    background-color:var(--light-blue);
+    color:white;
+    border-left:5px solid var(--medium);
+}
+
+
+.sideItem {
+    margin-bottom:1rem;
+    padding:0.5rem 0rem 0.5rem 0.5rem;
+    font-size:larger;
+    width:90%;
+    color:var(--dark);
+}
+
+.specific {
+    width: 60%;
+    margin-right: 10%;
+    margin-top: 3%;
+    height: 75%;
+}

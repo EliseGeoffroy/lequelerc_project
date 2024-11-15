@@ -1,0 +1,49 @@
+{% extends 'layout.html.twig' %}
+
+{% block stylesheets %}
+	{{parent()}}
+	<link rel="stylesheet" href="{{asset('styles/read-style.css')}}">
+{% endblock %}
+
+
+{% block specific %}
+	<div class="question">
+		<p class="title">{{question.title}}
+		</p>
+		<p class="content">{{question.content}}
+		</p>
+		{% include "partials/_questionFeatures.html.twig" with {from:'read', picture : question.author.picture , username : question.author.username} %}
+	</div>
+
+	<div {% if ( answers|length != 0)%} class="answerList"{% endif %}>
+		{% for answer in answers %}
+			<div class="previousAnswer flex-col-center">
+				<h2> <span class="nameAuthor spaceBetweenWords">{{answer.author.username}}</span> a répondu :</h2>
+				<div class="answerContent flex-row-center">
+					<div class="flex-col-center width-100">
+						<p class="content">	{{ answer.content }} </p>
+						<div class="date">{{answer.createdAt|ago|capitalize}}</div>
+					</div>
+					<div class="flex-col-center wholeLike">
+						<div class="like thumbs">
+							<a href="{{path('app_answer_rating',{'id':answer.id,'score':-1})}}" class="plus like"><i class="fa-solid fa-thumbs-up fa-2xl" ></i></a>
+							<a href="{{path('app_answer_rating',{'id':answer.id,'score':-1})}}" class="minus like"><i class="fa-solid fa-thumbs-down fa-2xl" ></i></a>
+						</div>
+						<div class="like numbers">
+							<span class="likesNumber">{{answer.likes}}</span>
+							<span class="dislikesNumber">{{answer.dislikes}}</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		{% endfor %}
+		
+	</div>
+
+{{form_start(my_form, {'attr':{'class':'newAnswer  flex-row-center'}})}}
+	{{form_widget(my_form.content, {'attr':{'class':'contentAnswer'}})}}
+	{{form_widget(my_form.submit, {'attr':{'class':'submit'}})}}
+{{form_end(my_form)}}
+
+
+{% endblock %}

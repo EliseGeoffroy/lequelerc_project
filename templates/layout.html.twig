@@ -1,0 +1,23 @@
+{% extends "base.html.twig"%}
+
+{% block stylesheets %}
+	{{parent()}}
+	<link rel="stylesheet" href={{asset("../assets/styles/layout-style.css")}}>
+{% endblock %}
+
+
+{% block main %}
+	<div class="sidebar flex-col-center">
+		<div class="askAQuestion">
+			<a href={{path('app_question_form')}}>Poser une question</a>
+		</div>
+		<a href="{{path('app_index')}}" {% if (app.request.pathinfo()==path('app_index')) %} class="active sideItem" {% else %} class="sideItem" {% endif %}>Liste des questions</a>
+		<a href="{{path('app_myquestions')}}" {% if (app.request.pathinfo()==path('app_myquestions')) %} class="active sideItem" {% else %} class="sideItem" {% endif %}>Mes questions</a>
+		<a href="{{path('app_myanswers')}}" {% if (app.request.pathinfo()==path('app_myanswers')) %} class="active sideItem" {% else %} class="sideItem" {% endif %}>Mes réponses</a>
+	</div>
+	<div class="specific">
+		{% block specific %}
+			Rien à afficher pour le moment
+		{% endblock %}
+	</div>
+{% endblock %}

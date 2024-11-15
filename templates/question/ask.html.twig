@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+	{{parent()}}
+	<link rel="stylesheet" href={{asset('/styles/form-style.css')}}>
+{% endblock %}
+{% block main %}
+	<div class="contain-form">
+		<h1>
+			Il n'y a pas de question bête!</h1>
+		<h2>
+			Alors, pose la tienne</h2>
+		{{form_start(my_form,{'attr':{'class':'form'}})}}
+		{{form_widget(my_form.title)}}
+		{{form_widget(my_form.content)}}
+		<div class="errors flex-col-center">
+			{{form_errors(my_form.title)}}
+			{{form_errors(my_form.content)}}
+		</div>
+		<div class="buttons flex-row-center">
+			<a href={{path('app_index')}} class="button return">Retour</a>
+			{{form_widget(my_form.submit)}}
+		</div>
+		{{form_end(my_form)}}
+	</div>
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends 'layout.html.twig' %}
+
+{% block stylesheets %}
+	{{parent()}}
+	<link rel="stylesheet" href="{{asset('styles/index-style.css')}}">
+{% endblock %}
+
+{% block specific %}
+
+	<ul class="QuestionList flex-col-stretch">
+		{% for question in questions %}
+			<li class="question flex-row-center">
+				<div class='rating flex-col-center'>
+					<a href="{{path('app_question_rating',{'id':question.id,'score':+1})}}">
+						<i class="fa-solid fa-arrow-up" {{(question.rating > 0)?'style="color:greenyellow"':''}}></i>
+					</a>
+					<p>{{question.rating}}
+					</p>
+					<a href="{{path('app_question_rating',{'id':question.id,'score':-1})}}">
+						<i class="fa-solid fa-arrow-down" {{(question.rating >= 0)?'':'style="color:red"'}}></i>
+					</a>
+				</div>
+				<a href="{{path('app_read',{'idQuestion':question.id})}}" class='questionDetails'>
+					<h2 class="title">{{question.title}}
+					</h2>
+					<p class="content">{{question.content}}
+					</p>
+					
+				</a>
+				{% include "partials/_questionFeatures.html.twig" with {from:'home', picture : question.picture , username : question.username} %}
+			</li>
+		{% endfor %}
+	</ul>
+{% endblock %}

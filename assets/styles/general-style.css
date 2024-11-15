@@ -1,0 +1,120 @@
+:root{
+    --blueLeclerc:#007bff;
+    --dark:#023047;
+    --light:#f8f9fa;
+    --light-blue:#8ecae6;
+    --medium:#219ebc;
+    --title-color:#00b4d8;
+    --light-gray:#f8f9fa;
+    --font-family-title:Verdana, Geneva, Tahoma, sans-serif;
+    --font-weight-title:400px;
+    --font-family-text:Arial, Helvetica, sans-serif;
+    --box-shadow:rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+    --border:1px solid var(--medium);
+    --border-radius: 8px;
+    
+}
+
+*{
+    font-size:16px;
+}
+
+body{
+    font-family: var(--font-family);
+    background-color: var(--light);
+    position:fixed;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+}
+
+a {
+    text-decoration: none;
+    color:inherit;
+    cursor: pointer;
+}
+
+/* All about buttons */
+.button, button {
+
+    text-align:center;
+    align-items:center;
+
+    border:var(--border);
+    box-shadow: var(--box-shadow);
+    border-radius:var(--border-radius);
+    padding:0.5rem 0rem;
+    width:10rem;
+    margin-top:2%;
+
+    font-family: var(--font-family);
+    font-size:larger;   
+    cursor:pointer;
+    
+}
+
+.return {
+    color:var(--medium);
+}
+
+.submit {
+    background-color: var(--medium);
+    color:white;
+}
+/*  */
+
+.nameAuthor {
+    font-weight:bolder;
+    color:var(--medium);
+}
+
+
+.profilePic {
+    
+    height:3rem;
+    width:3rem;
+    margin-right:2%;
+
+    border:var(--border);
+    border-radius: 100%;
+    border-color:grey;
+    box-shadow:var(--box-shadow);
+    
+}
+
+/*general classes*/
+.flex-row-center {
+    display:flex;
+    flex-direction: row;
+    align-items:center;
+}
+
+.flex-col-center {
+    display:flex;
+    flex-direction: column;
+    align-items:center;
+}
+
+.flex-col-stretch {
+    display:flex;
+    flex-direction: column;
+    align-items: stretch;
+
+}
+
+.red {
+    color:red;
+}
+
+.green {
+    color:greenyellow;
+}
+
+.spaceBetweenWords {
+    padding:0rem 0.5rem;
+}
+
+.width-100{
+    width:100%
+}
