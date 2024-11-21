@@ -25,10 +25,15 @@
 					<i class="fa-solid fa-magnifying-glass fa-rotate-90" style="color: #afb0b1;"></i>
 					<input type="search" class="searchBar" placeholder="Rechercher dans Lequelerc"/>
 				</div>
-				<a href="{{path('app_signIn')}}" {% if (app.request.pathinfo()==path('app_signIn')) %} class="active navItem" {% else %} class="navItem" {% endif %}>
-					Connexion</a>
-				<a href="{{path('app_signUp')}}" {% if (app.request.pathinfo()==path('app_signUp')) %} class="active navItem" {% else %} class="navItem" {% endif %}>Inscription</a>
-				<a href="{{path('app_signOut')}}" {% if (app.request.pathinfo()==path('app_signOut'))%} class="active navItem" {% else %} class="navItem" {% endif %}>Déconnexion</a>
+				{% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+					<a href="{{path('app_profile',{'id':app.user.id})}}" {% if (app.request.pathinfo()==path('app_profile',{'id':app.user.id}))%} class="active navItem" {% else %} class="navItem" {% endif %}>Mon Profil</a>
+					<a href="{{path('app_signOut')}}" {% if (app.request.pathinfo()==path('app_signOut'))%} class="active navItem" {% else %} class="navItem" {% endif %}>Déconnexion</a>
+				{% else %}
+					<a href="{{path('app_signIn')}}" {% if (app.request.pathinfo()==path('app_signIn')) %} class="active navItem" {% else %} class="navItem" {% endif %}>
+						Connexion</a>
+					<a href="{{path('app_signUp')}}" {% if (app.request.pathinfo()==path('app_signUp')) %} class="active navItem" {% else %} class="navItem" {% endif %}>Inscription</a>
+				{% endif %}
+				
 			</nav>
 		</header>
 		<main>

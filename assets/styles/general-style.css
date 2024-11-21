@@ -46,7 +46,7 @@ a {
     border-radius:var(--border-radius);
     padding:0.5rem 0rem;
     width:10rem;
-    margin-top:2%;
+    margin:2% 0;
 
     font-family: var(--font-family);
     font-size:larger;   
@@ -64,9 +64,8 @@ a {
 }
 /*  */
 
-.nameAuthor {
+.nameAuthor, .nameUser {
     font-weight:bolder;
-    color:var(--medium);
 }
 
 
@@ -84,6 +83,8 @@ a {
 }
 
 /*general classes*/
+
+
 .flex-row-center {
     display:flex;
     flex-direction: row;
@@ -103,6 +104,13 @@ a {
 
 }
 
+.flex-col-baseline {
+    display:flex;
+    flex-direction: column;
+    align-items: baseline;
+
+}
+
 .red {
     color:red;
 }
@@ -117,4 +125,25 @@ a {
 
 .width-100{
     width:100%
+}
+
+.total-filling{
+    height:100%;
+    width:100%;
+}
+
+.box {
+    border-radius:var(--border-radius);
+    background-color: white;
+    border:var(--border);
+    box-shadow:var(--box-shadow);
+}
+
+/* forms related classes */
+.error {
+    color:red;
+    list-style: none;
+    padding-left: 0px;
+    margin-top: 5px;
+    
 }

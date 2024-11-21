@@ -1,0 +1,29 @@
+.like {
+    
+    display:flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: baseline;
+    margin: 0.2rem 0rem;
+    
+}
+
+
+.fa-thumbs-up, .fa-thumbs-down {
+    color:var(--medium);
+    margin-right:1.5rem;
+}
+
+.dislikesNumber, .likesNumber {
+    font-weight: bolder;
+    margin: 0rem 1.5rem;
+}
+
+.numbers {
+    margin-right: 1.3rem;
+}
+
+.wholeLike {
+    margin:0% 1%;
+    width:20%;
+}

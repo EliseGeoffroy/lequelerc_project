@@ -2,8 +2,8 @@
 
 namespace App\Repository;
 
+use App\Entity\User;
 use App\Entity\Answer;
-use App\Entity\Author;
 use App\Entity\Question;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
@@ -21,8 +21,8 @@ class QuestionRepository extends ServiceEntityRepository
     {
 
         return $this->createQueryBuilder('q')
-            ->select(array('q.id', 'q.title', 'q.content', 'q.rating', 'q.createdAt', 'a.username', 'a.picture', 'count(an.id) as answersNumber'))
-            ->innerjoin(Author::class, 'a', JOIN::WITH, 'a.id=q.author')
+            ->select(array('q.id', 'q.title', 'q.content', 'q.rating', 'q.createdAt', 'a.id as authorId', 'a.username', 'a.picture', 'a.color', 'count(an.id) as answersNumber'))
+            ->innerjoin(User::class, 'a', JOIN::WITH, 'a.id=q.author')
             ->leftjoin(Answer::class, 'an', JOIN::WITH, 'an.question=q.id')
             ->groupBy('q.id')
             ->orderBy('q.createdAt', 'DESC')

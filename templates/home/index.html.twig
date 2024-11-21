@@ -7,19 +7,20 @@
 
 {% block specific %}
 
+	{% if is_granted ('IS_AUTHENTICATED_REMEMBERED') %}
+		<h1 class="greetings"> Bonjour 
+			<span class='space-between-words nameUser' style='color:{{app.user.color}}'>{{app.user.username}}</span>
+			!
+		</h1>
+	{% else %}
+		<h1 class="greetings"> Bonjour !</h1>
+	{% endif %}
+
+
 	<ul class="QuestionList flex-col-stretch">
 		{% for question in questions %}
 			<li class="question flex-row-center">
-				<div class='rating flex-col-center'>
-					<a href="{{path('app_question_rating',{'id':question.id,'score':+1})}}">
-						<i class="fa-solid fa-arrow-up" {{(question.rating > 0)?'style="color:greenyellow"':''}}></i>
-					</a>
-					<p>{{question.rating}}
-					</p>
-					<a href="{{path('app_question_rating',{'id':question.id,'score':-1})}}">
-						<i class="fa-solid fa-arrow-down" {{(question.rating >= 0)?'':'style="color:red"'}}></i>
-					</a>
-				</div>
+				{% include "partials/_question-rating.html.twig" %}
 				<a href="{{path('app_read',{'idQuestion':question.id})}}" class='questionDetails'>
 					<h2 class="title">{{question.title}}
 					</h2>
@@ -27,7 +28,7 @@
 					</p>
 					
 				</a>
-				{% include "partials/_questionFeatures.html.twig" with {from:'home', picture : question.picture , username : question.username} %}
+				{% include "partials/_questionFeatures.html.twig" with {from:'home', picture : question.picture , username : question.username, color : question.color, authorId : question.authorId} %}
 			</li>
 		{% endfor %}
 	</ul>

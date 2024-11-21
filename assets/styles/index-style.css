@@ -9,6 +9,13 @@
     overflow-y:scroll;
 }
 
+h1.greetings, .nameUser {
+    font-family:baskerville;
+    font-family: serif;
+    font-weight: 100;
+    font-size: 35px;
+}
+
 .question {
     background-color: white;
     border:var(--border);
@@ -26,9 +33,8 @@
 .rating {
     width:10%;
     padding-top:1% 0%;
-    
-
-}
+  }
+  
 .rating p {
     text-align: center;
 }

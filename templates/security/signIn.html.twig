@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+	{{parent()}}
+	<link rel="stylesheet" href={{asset('/styles/signIn-style.css')}}>
+{% endblock %}
+
+
+
+{% block main %}
+<div class="flex-col-center signIn">
+{% if error %}
+    {{error.messageKey|trans(error.messageData,'security')}}
+{% endif %}
+
+    <form action="{{path('app_signIn')}}" method="POST" class="form flex-col-center total-filling ">
+        <label for='username'>Email</label>
+        <input type="text" id="username" name="_username" value="{{last_username}}"/>
+        <label for='password'>Mot de passe</label>
+        <input type="text" id="password" name="_password"/>
+        <input type="hidden" name="_csrf_token" value="{{csrf_token('authenticate')}}">
+        <label class="flex-row-center remember">
+            <input type="checkbox" name="_remember_me">
+            Se souvenir de moi
+        </label>
+        <button type="submit" class="submit"> Je me connecte</button>
+    </form>
+</div>
+{% endblock %}

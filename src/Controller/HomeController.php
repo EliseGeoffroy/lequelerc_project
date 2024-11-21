@@ -15,6 +15,7 @@ class HomeController extends AbstractController
     {
         $questionsTable = $repo->findJoinAuthorCountAnswer();
 
+
         return $this->render('home/index.html.twig', [
             'controller_name' => 'HomeController',
             'questions' => $questionsTable

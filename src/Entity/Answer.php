@@ -22,9 +22,6 @@ class Answer
     #[ORM\JoinColumn(nullable: false)]
     private ?Question $question = null;
 
-    #[ORM\ManyToOne(inversedBy: 'answer')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Author $author = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $createdAt = null;
@@ -34,6 +31,10 @@ class Answer
 
     #[ORM\Column]
     private ?int $dislikes = null;
+
+    #[ORM\ManyToOne(inversedBy: 'answers')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $author = null;
 
     public function getId(): ?int
     {
@@ -61,18 +62,6 @@ class Answer
     public function setQuestion(?Question $question): static
     {
         $this->question = $question;
-
-        return $this;
-    }
-
-    public function getAuthor(): ?Author
-    {
-        return $this->author;
-    }
-
-    public function setAuthor(?Author $author): static
-    {
-        $this->author = $author;
 
         return $this;
     }
@@ -109,6 +98,18 @@ class Answer
     public function setDislikes(int $dislikes): static
     {
         $this->dislikes = $dislikes;
+
+        return $this;
+    }
+
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?User $author): static
+    {
+        $this->author = $author;
 
         return $this;
     }

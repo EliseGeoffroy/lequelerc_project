@@ -11,7 +11,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class ReadController extends AbstractController
 {
@@ -20,7 +22,7 @@ class ReadController extends AbstractController
         name: 'app_read',
         requirements: ['idQuestion' => '[\d]+']
     )]
-    public function index($idQuestion, QuestionRepository $repoQuestion, EntityManagerInterface $em, AuthorRepository $repoAuthor, Request $request): Response
+    public function index($idQuestion, QuestionRepository $repoQuestion, EntityManagerInterface $em, Request $request): Response
     {
 
         $newAnswer = new Answer();
@@ -28,34 +30,39 @@ class ReadController extends AbstractController
 
         $answersTable = $question->getAnswers();
 
-        $form = $this->createForm(AnswerType::class, $newAnswer);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            //Little hardcoding before authentication chapter
-            $author = $repoAuthor->find(2);
-            //
-
-            $newAnswer->setLikes(0);
-            $newAnswer->setDisLikes(0);
-            $newAnswer->setAuthor($author);
-            $newAnswer->setQuestion($question);
-            $newAnswer->setCreatedAt(new DateTime);
-            $em->persist($newAnswer);
-            $em->flush();
-
-            $newAnswer = new Answer();
+        if ($this->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             $form = $this->createForm(AnswerType::class, $newAnswer);
+            $form->handleRequest($request);
 
-            $this->addFlash('success', 'Merci pour votre réponse.');
-        };
-        return $this->render('read/index.html.twig', [
-            'controller_name' => 'ReadController',
-            'question' => $question,
-            'answers' => $answersTable,
-            'my_form' => $form->createView()
-        ]);
+            if ($form->isSubmitted() && $form->isValid()) {
+
+                $newAnswer->setLikes(0);
+                $newAnswer->setDisLikes(0);
+                $newAnswer->setAuthor($this->getUser());
+                $newAnswer->setQuestion($question);
+                $newAnswer->setCreatedAt(new DateTime);
+                $em->persist($newAnswer);
+                $em->flush();
+
+                $newAnswer = new Answer();
+                $form = $this->createForm(AnswerType::class, $newAnswer);
+
+                $this->addFlash('success', 'Merci pour votre réponse.');
+            };
+            return $this->render('read/index.html.twig', [
+                'controller_name' => 'ReadController',
+                'question' => $question,
+                'answers' => $answersTable,
+                'my_form' => $form->createView()
+            ]);
+        } else {
+            return $this->render('read/index.html.twig', [
+                'controller_name' => 'ReadController',
+                'question' => $question,
+                'answers' => $answersTable,
+            ]);
+        }
     }
 
 
@@ -65,8 +72,17 @@ class ReadController extends AbstractController
         name: 'app_answer_rating',
         requirements: ['score' => '[-]{0,1}1', 'id' => '[\d]+']
     )]
+    #[IsGranted('IS_AUTHENTICATED_REMEMBERED')]
     public function likeAQuestion(Request $request, $score,  Answer $answer, EntityManagerInterface $em)
     {
+
+        try {
+            $this->denyAccessUnlessGranted('RATE', $answer);
+        } catch (AccessDeniedException $exception) {
+            $this->addFlash('deny', 'Et non, petit coquin, tu ne peux pas voter pour ta propre réponse. Pas de narcissisme sur ce forum.');
+            $referer = $request->headers->get('referer');
+            return $referer ? $this->redirect($referer) : $this->redirectToRoute('home');
+        }
 
         if ($score == 1) {
             $newLikes = $answer->getLikes() + 1;

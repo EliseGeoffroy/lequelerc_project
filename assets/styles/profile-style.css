@@ -1,0 +1,93 @@
+@import url("answer-rating-style.css");
+
+.specific {
+    display:flex;
+    flex-direction:column;
+    align-items:center; 
+    margin-right:0%;
+    width:80%
+}
+
+.profilePic.profilePage{
+    height:10rem;
+    width:10rem
+}
+
+.stats {
+min-height:max-content;
+}
+
+.fa-comment,  .fa-question{
+    padding:1rem;
+}
+
+.numbers {
+    padding:0rem 1rem;
+}
+
+.authorName {
+    font-size:25px;
+}
+
+.tab {
+height:fit-content;
+justify-content: space-around;
+width:30%;
+background-color:white;
+}
+
+.tab a {
+    cursor: pointer;
+    transition: border-bottom 0.5s;
+    font-size:larger;
+    padding: 0.5rem 1rem;
+    border-right: 1px solid var(--light-blue);
+}
+
+.active, .tab a:hover {
+    border-bottom:5px solid var(--medium);
+
+}
+
+.details {
+    height:50%;
+    padding-left:5%;
+}
+
+li.contents {
+    
+    border-bottom:var(--border);
+}
+
+ul.contents {
+    width:fit-content;
+    min-width:30%;
+    max-width:90%;
+    background-color:white;
+    overflow-y:scroll;
+    padding-left:0;
+    padding-right:2rem;
+}
+
+
+.title {
+    font-weight:bolder;
+    font-size:large;
+}
+
+.content{
+    padding-left:2rem;
+}
+
+.createdAt {
+    text-align:end;
+}
+
+.rating {
+    width:10px;
+    padding: 1rem 2rem;
+}
+
+.wholeLike{
+    padding : 1rem 2rem;
+}
