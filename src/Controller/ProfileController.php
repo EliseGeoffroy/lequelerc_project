@@ -105,7 +105,7 @@ class ProfileController extends AbstractController
         );
     }
 
-    public function countAnswerQuestion($id, UserRepository $repoUser)
+    private function countAnswerQuestion($id, UserRepository $repoUser)
     {
 
         $questionsNumber = $repoUser->findCountQuestion($id)[0];

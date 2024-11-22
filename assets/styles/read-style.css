@@ -17,7 +17,8 @@
     border-radius:var(--border-radius);
     box-shadow:var(--box-shadow);
     margin:1.5% 0%;
-    padding-left:1%
+    padding-left:1%; 
+    min-width:fit-content;
 }
 
 .answerList{
@@ -32,11 +33,11 @@
 }
 
 .content {
-    padding-bottom:2%;
     margin-bottom:0;
     width:100%;
     text-align: justify;
-    overflow: auto;
+    overflow-y: scroll;
+    padding: 0% 1% 2% 1%;
 }
 
 .previousAnswer {
