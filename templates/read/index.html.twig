@@ -18,7 +18,12 @@
 	<div {% if ( answers|length != 0)%} class="answerList"{% endif %}>
 		{% for answer in answers %}
 			<div class="previousAnswer flex-col-center">
-				<h2> <span class="nameAuthor spaceBetweenWords" style="color:{{answer.author.color}}">{{answer.author.username}}</span> a répondu :</h2>
+				<h2> 
+					<a href="{{path('app_profile',{id:answer.authorId})}}">
+						<span class="nameAuthor spaceBetweenWords" style="color:{{answer.authorColor}}">{{answer.authorUsername}}</span>
+					</a>
+					a répondu :
+				</h2>
 				<div class="answerContent flex-row-center">
 					<div class="flex-col-center width-100">
 						<p class="content">	{{ answer.content }} </p>
@@ -30,12 +35,11 @@
 		{% endfor %}
 		
 	</div>
-{% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-
-{{form_start(my_form, {'attr':{'class':'newAnswer  flex-row-center'}})}}
-	{{form_widget(my_form.content, {'attr':{'class':'contentAnswer'}})}}
-	{{form_widget(my_form.submit, {'attr':{'class':'submit'}})}}
-{{form_end(my_form)}}
+{% if my_form is defined %}
+	{{form_start(my_form, {'attr':{'class':'newAnswer  flex-row-center'}})}}
+		{{form_widget(my_form.content, {'attr':{'class':'contentAnswer'}})}}
+		{{form_widget(my_form.submit, {'attr':{'class':'submit'}})}}
+	{{form_end(my_form)}}
 {% else %}
 	<div class='box inauthenticated-message'>
 		Il faut être connecté pour pouvoir répondre. Vous savez ce qu'il vous reste à faire ;)

@@ -12,6 +12,7 @@
 .fa-thumbs-up, .fa-thumbs-down {
     color:var(--medium);
     margin-right:1.5rem;
+    padding-bottom:1rem;
 }
 
 .dislikesNumber, .likesNumber {

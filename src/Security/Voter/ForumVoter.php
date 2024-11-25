@@ -21,7 +21,7 @@ final class ForumVoter extends Voter
         // replace with your own logic
         // https://symfony.com/doc/current/security/voters.html
         return in_array($attribute, [self::EDIT, self::DELETE, self::RATE])
-            && $subject instanceof \App\Entity\Question;
+            && ($subject instanceof \App\Entity\Question || $subject instanceof \App\Entity\Answer);
     }
 
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
@@ -49,6 +49,7 @@ final class ForumVoter extends Voter
                 break;
 
             case self::RATE:
+
                 if (($user != $subject->getAuthor()) && (!$subject->getVoters()->contains($user))) {
                     return true;
                 }

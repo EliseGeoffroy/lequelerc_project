@@ -2,7 +2,14 @@
 @import url("questionFeatures-style.css");
 @import url("answer-rating-style.css");
 
+main {
+    align-items:stretch;
+}
 
+.sidebar {
+    margin-top:10%;
+    margin-left:2%;
+}
 
 .specific {
     width: 60%;
@@ -36,7 +43,7 @@
     margin-bottom:0;
     width:100%;
     text-align: justify;
-    overflow-y: scroll;
+    overflow-y: auto;
     padding: 0% 1% 2% 1%;
 }
 

@@ -5,6 +5,7 @@ namespace App\Controller;
 use DateTime;
 use App\Entity\Answer;
 use App\Form\AnswerType;
+use App\Repository\AnswerRepository;
 use App\Repository\AuthorRepository;
 use App\Repository\QuestionRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -22,13 +23,13 @@ class ReadController extends AbstractController
         name: 'app_read',
         requirements: ['idQuestion' => '[\d]+']
     )]
-    public function index($idQuestion, QuestionRepository $repoQuestion, EntityManagerInterface $em, Request $request): Response
+    public function index($idQuestion, QuestionRepository $repoQuestion, EntityManagerInterface $em, Request $request, AnswerRepository $repoAnswer): Response
     {
 
         $newAnswer = new Answer();
         $question = $repoQuestion->find($idQuestion);
 
-        $answersTable = $question->getAnswers();
+        $answersTable = $repoAnswer->findJoinAuthor($idQuestion);
 
 
         if ($this->isGranted('IS_AUTHENTICATED_REMEMBERED')) {

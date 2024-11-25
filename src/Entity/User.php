@@ -8,10 +8,12 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
+#[UniqueEntity(fields: ['email'], entityClass: User::class, message: "Cet email est déjà utilisé. Etes-vous sûrs de ne pas avoir déjà un compte ?")]
+#[UniqueEntity(fields: ['username'], entityClass: User::class, message: "Ce nom d'utilisateur est déjà utilisé. Un peu d'imagination, que diable!")]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -19,7 +21,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 180)]
+    #[ORM\Column(length: 180, unique: true)]
     #[Assert\Email(message: 'Petit coquin, vous ne voulez pas être joignable ? Et bien pas de questions, ni de réponses !')]
     private ?string $email = null;
 
@@ -36,7 +38,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\Length(min: 6, minMessage: "Attention, pirates à babord! Augmentez vos défenses avec un mot de passe plus long.")]
     private ?string $password = null;
 
-    #[ORM\Column(length: 100)]
+    #[ORM\Column(length: 100, unique: true)]
     #[Assert\Length(max: 100, maxMessage: "Le nom d'utilisateur ne peut pas dépasser 100 caractères.")]
     private ?string $username = null;
 
