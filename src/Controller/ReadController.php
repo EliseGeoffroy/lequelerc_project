@@ -79,7 +79,11 @@ class ReadController extends AbstractController
         try {
             $this->denyAccessUnlessGranted('RATE', $answer);
         } catch (AccessDeniedException $exception) {
-            $this->addFlash('deny', 'Et non, petit coquin, tu ne peux pas voter pour ta propre réponse. Pas de narcissisme sur ce forum.');
+            if (($this->getUser() == $answer->getAuthor())) {
+                $this->addFlash('deny', 'Et non, petit coquin, tu ne peux pas voter pour ta propre question. Pas de narcissisme sur ce forum.');
+            } else {
+                $this->addFlash('deny', 'On ne vote qu\'une seule fois, c\'est la démocratie ici!');
+            }
             $referer = $request->headers->get('referer');
             return $referer ? $this->redirect($referer) : $this->redirectToRoute('home');
         }
@@ -92,6 +96,7 @@ class ReadController extends AbstractController
             $answer->setDislikes($newDislikes);
         }
         $em->flush();
+        $answer->addVoter($this->getUser());
 
         $referer = $request->headers->get('referer');
         return $referer ? $this->redirect($referer) : $this->redirectToRoute('home');

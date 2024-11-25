@@ -56,13 +56,22 @@ class QuestionController extends AbstractController
     public function likeAQuestion($score, Question $question, EntityManagerInterface $em)
     {
 
+
+
         try {
             $this->denyAccessUnlessGranted('RATE', $question);
         } catch (AccessDeniedException $exception) {
-            $this->addFlash('deny', 'Et non, petit coquin, tu ne peux pas voter pour ta propre question. Pas de narcissisme sur ce forum.');
+
+            if (($this->getUser() == $question->getAuthor())) {
+                $this->addFlash('deny', 'Et non, petit coquin, tu ne peux pas voter pour ta propre question. Pas de narcissisme sur ce forum.');
+            } else {
+                $this->addFlash('deny', 'On ne vote qu\'une seule fois, c\'est la démocratie ici!');
+            }
+
             return $this->redirectToRoute('app_index');
         }
         $newRating = $question->getRating() + $score;
+        $question->addVoter($this->getUser());
         $question->setRating($newRating);
         $em->flush();
 

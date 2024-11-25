@@ -49,7 +49,7 @@ final class ForumVoter extends Voter
                 break;
 
             case self::RATE:
-                if ($user != $subject->getAuthor()) {
+                if (($user != $subject->getAuthor()) && (!$subject->getVoters()->contains($user))) {
                     return true;
                 }
                 break;

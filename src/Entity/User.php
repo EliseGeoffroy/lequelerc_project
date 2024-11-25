@@ -58,10 +58,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Answer::class, mappedBy: 'author', orphanRemoval: true)]
     private Collection $answers;
 
+    /**
+     * @var Collection<int, Answer>
+     */
+    #[ORM\ManyToMany(targetEntity: Answer::class, inversedBy: 'voters')]
+    private Collection $answerVoted;
+
+    /**
+     * @var Collection<int, Question>
+     */
+    #[ORM\ManyToMany(targetEntity: Question::class, inversedBy: 'voters')]
+    private Collection $questionsVoted;
+
     public function __construct()
     {
         $this->questions = new ArrayCollection();
         $this->answers = new ArrayCollection();
+        $this->answerVoted = new ArrayCollection();
+        $this->questionsVoted = new ArrayCollection();
     }
 
 
@@ -232,6 +246,54 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $answer->setAuthor(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Answer>
+     */
+    public function getAnswerVoted(): Collection
+    {
+        return $this->answerVoted;
+    }
+
+    public function addAnswerVoted(Answer $answerVoted): static
+    {
+        if (!$this->answerVoted->contains($answerVoted)) {
+            $this->answerVoted->add($answerVoted);
+        }
+
+        return $this;
+    }
+
+    public function removeAnswerVoted(Answer $answerVoted): static
+    {
+        $this->answerVoted->removeElement($answerVoted);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Question>
+     */
+    public function getQuestionsVoted(): Collection
+    {
+        return $this->questionsVoted;
+    }
+
+    public function addQuestionsVoted(Question $questionsVoted): static
+    {
+        if (!$this->questionsVoted->contains($questionsVoted)) {
+            $this->questionsVoted->add($questionsVoted);
+        }
+
+        return $this;
+    }
+
+    public function removeQuestionsVoted(Question $questionsVoted): static
+    {
+        $this->questionsVoted->removeElement($questionsVoted);
 
         return $this;
     }

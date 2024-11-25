@@ -43,9 +43,16 @@ class Question
     #[ORM\JoinColumn(nullable: false)]
     private ?User $author = null;
 
+    /**
+     * @var Collection<int, User>
+     */
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'questionsVoted')]
+    private Collection $voters;
+
     public function __construct()
     {
         $this->answers = new ArrayCollection();
+        $this->voters = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -139,6 +146,33 @@ class Question
     public function setAuthor(?User $author): static
     {
         $this->author = $author;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getVoters(): Collection
+    {
+        return $this->voters;
+    }
+
+    public function addVoter(User $voter): static
+    {
+        if (!$this->voters->contains($voter)) {
+            $this->voters->add($voter);
+            $voter->addQuestionsVoted($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVoter(User $voter): static
+    {
+        if ($this->voters->removeElement($voter)) {
+            $voter->removeQuestionsVoted($this);
+        }
 
         return $this;
     }
