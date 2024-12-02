@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+{% apply inline_css (source('@email_css/email-style.css.twig')) %}
+
+
+<body class="flex-col-center">
+    <div class="message">
+        <h1 class="test"> Mot de passe oublié ?  </h1>
+        <p> Pas de souci, ça arrive! Clique sur le lien et tu pourras en choisir un nouveau. </p>
+        <p>  
+            <a href="{{url ('app_reset_password',{token: user.token, email: user.email})}}" class="button"> Réinitialiser le mot de passe </a>
+        </p>
+    </div>
+</body>
+{% endapply %}
+</html>

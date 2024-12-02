@@ -6,7 +6,6 @@ use DateTime;
 use App\Entity\Answer;
 use App\Form\AnswerType;
 use App\Repository\AnswerRepository;
-use App\Repository\AuthorRepository;
 use App\Repository\QuestionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -48,6 +47,8 @@ class ReadController extends AbstractController
 
                 $newAnswer = new Answer();
                 $form = $this->createForm(AnswerType::class, $newAnswer);
+
+                $answersTable = $repoAnswer->findJoinAuthor($idQuestion);
 
                 $this->addFlash('success', 'Merci pour votre réponse.');
             };

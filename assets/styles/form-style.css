@@ -30,13 +30,13 @@ main{
 
 label {
     margin-top:2%;
-    width: 50%;
+    width: 70%;
     font-weight:bolder;
     text-align:left;
 }
 
 input {
-    width:50%;
+    width:70%;
     max-width:20rem;
     height:60%;
     max-height: 2.5rem;
@@ -54,5 +54,6 @@ input {
 .form-field {
     padding:1% 0%;
     height: 15%;
+    min-height:fit-content;
 
 }

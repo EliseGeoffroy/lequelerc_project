@@ -8,3 +8,10 @@
     justify-content: space-around;
 }
 
+.forgotten-pwd {
+    font-weight:lighter;
+    font-size: smaller;
+    font-style:italic;
+    width:80%;
+    text-align:end;
+}
