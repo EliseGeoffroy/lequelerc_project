@@ -18,6 +18,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\RateLimiter\RateLimiterFactory;
 use Symfony\Component\Security\Http\Authenticator\FormLoginAuthenticator;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 
@@ -73,7 +74,7 @@ class SecurityController extends AbstractController
     }
 
     #[Route('/forgetPassword', name: 'app_password_forgotten')]
-    public function forgetPassword(EntityManagerInterface $em, Request $request,  UserRepository $repo,): Response
+    public function forgetPassword(EntityManagerInterface $em, Request $request,  UserRepository $repo, RateLimiterFactory $passwordRecoveryLimiter, UserForgetPasswordRepository $repoForget): Response
     {
 
         $userForgetPassword = new UserForgetPassword();
@@ -84,13 +85,25 @@ class SecurityController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $userIdentified = $repo->findBy(['email' => $userForgetPassword->getEmail()]);
+            $email = $userForgetPassword->getEmail();
+            $userIdentified = $repo->findBy(['email' => $email]);
 
+            $oldForgetPassword = $repoForget->findOneBy(['email' => $email]);
+            if ($oldForgetPassword) {
+                $em->remove($oldForgetPassword);
+                $em->flush();
+            }
+
+            $limiter = $passwordRecoveryLimiter->create($request->getClientIp());
+            if (false === $limiter->consume(1)->isAccepted()) {
+                $this->addFlash('toomany', 'Vous avez essayé de réinitialiser votre mot de passe trop de fois. Réessayez dans une heure.');
+                return $this->redirectToRoute('app_index');
+            }
 
             if ($userIdentified) {
                 $userForgetPassword->setUser($userIdentified[0]);
                 $userForgetPassword->setExpirationDate(new \DateTimeImmutable('+2 hours'));
-                $userForgetPassword->setToken(substr(str_replace(['+', '/', '='], '', base64_encode(random_bytes(30))), 0, 20));
+                $userForgetPassword->setToken(sha1(substr(str_replace(['+', '/', '='], '', base64_encode(random_bytes(30))), 0, 20)));
                 $em->persist($userForgetPassword);
                 $em->flush();
 
