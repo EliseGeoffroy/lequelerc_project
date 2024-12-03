@@ -2,11 +2,14 @@
 @import url("questionFeatures-style.css");
 
 .specific {
-    width: 60%;
-    margin-right: 10%;
-    margin-top: 3%;
-    height: 75%;
     overflow-y:scroll;
+}
+
+h1.greetings, .nameUser {
+    font-family:baskerville;
+    font-family: serif;
+    font-weight: 100;
+    font-size: 35px;
 }
 
 .question {
@@ -26,9 +29,8 @@
 .rating {
     width:10%;
     padding-top:1% 0%;
-    
-
-}
+  }
+  
 .rating p {
     text-align: center;
 }

@@ -1,10 +1,12 @@
 @import url("general-style.css");
 
 main{
-    display:flex;
-    flex-direction:row;
+    display: flex;
+    flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-between;
+    align-items: center;
+    height: 85%;
 }
 
 .sidebar {
@@ -12,9 +14,8 @@ main{
     box-shadow:var(--box-shadow);
 
     width: 15%;
-    height:75%;
-    margin-top:3%;
-    margin-left:5%;
+    height:50%;
+  
     padding-top:2rem;      
 }
 
@@ -53,8 +54,8 @@ main{
 }
 
 .specific {
-    width: 60%;
-    margin-right: 10%;
-    margin-top: 3%;
-    height: 75%;
+    width: 70%;
+    padding-right: 5%;
+    margin-right:5%;
+    height: 80%;
 }

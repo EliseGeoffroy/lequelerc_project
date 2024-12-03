@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\AnswerRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -22,9 +24,6 @@ class Answer
     #[ORM\JoinColumn(nullable: false)]
     private ?Question $question = null;
 
-    #[ORM\ManyToOne(inversedBy: 'answer')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Author $author = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $createdAt = null;
@@ -34,6 +33,21 @@ class Answer
 
     #[ORM\Column]
     private ?int $dislikes = null;
+
+    #[ORM\ManyToOne(inversedBy: 'answers')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $author = null;
+
+    /**
+     * @var Collection<int, User>
+     */
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'answerVoted')]
+    private Collection $voters;
+
+    public function __construct()
+    {
+        $this->voters = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -61,18 +75,6 @@ class Answer
     public function setQuestion(?Question $question): static
     {
         $this->question = $question;
-
-        return $this;
-    }
-
-    public function getAuthor(): ?Author
-    {
-        return $this->author;
-    }
-
-    public function setAuthor(?Author $author): static
-    {
-        $this->author = $author;
 
         return $this;
     }
@@ -109,6 +111,45 @@ class Answer
     public function setDislikes(int $dislikes): static
     {
         $this->dislikes = $dislikes;
+
+        return $this;
+    }
+
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?User $author): static
+    {
+        $this->author = $author;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getVoters(): Collection
+    {
+        return $this->voters;
+    }
+
+    public function addVoter(User $voter): static
+    {
+        if (!$this->voters->contains($voter)) {
+            $this->voters->add($voter);
+            $voter->addAnswerVoted($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVoter(User $voter): static
+    {
+        if ($this->voters->removeElement($voter)) {
+            $voter->removeAnswerVoted($this);
+        }
 
         return $this;
     }

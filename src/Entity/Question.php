@@ -35,16 +35,24 @@ class Question
     #[ORM\OneToMany(targetEntity: Answer::class, mappedBy: 'question', orphanRemoval: true)]
     private Collection $answers;
 
-    #[ORM\ManyToOne(inversedBy: 'questions')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Author $author = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $createdAt = null;
 
+    #[ORM\ManyToOne(inversedBy: 'questions')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $author = null;
+
+    /**
+     * @var Collection<int, User>
+     */
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'questionsVoted')]
+    private Collection $voters;
+
     public function __construct()
     {
         $this->answers = new ArrayCollection();
+        $this->voters = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -118,18 +126,6 @@ class Question
         return $this;
     }
 
-    public function getAuthor(): ?Author
-    {
-        return $this->author;
-    }
-
-    public function setAuthor(?Author $author): static
-    {
-        $this->author = $author;
-
-        return $this;
-    }
-
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
@@ -138,6 +134,45 @@ class Question
     public function setCreatedAt(\DateTimeInterface $createdAt): static
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?User $author): static
+    {
+        $this->author = $author;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getVoters(): Collection
+    {
+        return $this->voters;
+    }
+
+    public function addVoter(User $voter): static
+    {
+        if (!$this->voters->contains($voter)) {
+            $this->voters->add($voter);
+            $voter->addQuestionsVoted($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVoter(User $voter): static
+    {
+        if ($this->voters->removeElement($voter)) {
+            $voter->removeQuestionsVoted($this);
+        }
 
         return $this;
     }

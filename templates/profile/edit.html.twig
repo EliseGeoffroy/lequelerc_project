@@ -1,0 +1,28 @@
+{% extends "layout.html.twig" %}
+
+{% block stylesheets %}
+    {{parent()}}
+    <link rel="stylesheet" href={{asset("../assets/styles/edit-profile-style.css")}}> 
+
+{% endblock %}
+
+{% block specific %}
+ <a href="{{path('app_profile',{'id':author.id})}}" class="return-button width-100">
+                <button type="return" class="return"> 
+                        Retour
+                </button>
+            </a>
+
+
+    {{form_start(my_form, {'methods':'POST', 'attr':{'class':'form signUp flex-col-center'}})}}
+        {{form_row(my_form.username)}}
+        {{form_row(my_form.picture)}}
+        {{form_row(my_form.color)}}
+        {{form_row(my_form.email)}}
+        {{form_row(my_form.password)}}
+           
+            <button type="submit" class="submit"> Sauvegarder mes informations</button>
+   
+    {{form_end(my_form)}}
+
+{% endblock %}

@@ -1,0 +1,69 @@
+@import url("general-style.css");
+
+main {
+    align-items: center;
+}
+
+.contain-form{
+
+    border:var(--border);
+    border-radius:var(--border-radius);
+    box-shadow:var(--box-shadow);
+    background-color:white;
+    margin-left:25%;
+    margin-right:25%;
+    width:50%;
+    height:60%;
+}
+
+.contain-form h1,h2 {
+    text-align: center;
+    height:2.5%;
+    color:var(--medium);
+    font-size:larger;
+    font-weight:bolder;
+}
+
+.form {
+    display:flex;
+    flex-direction:column;
+    align-items: stretch;
+    justify-content: center;
+    height:80%;
+}
+
+.form input, textarea {
+    text-align: center;
+    font-family:Arial, Helvetica, sans-serif;
+    border-style: none;
+    border-bottom:solid 1px var(--medium); 
+}
+
+textarea {
+    height:70%;
+    padding:1rem;
+}
+
+.form input {
+    height:10%;
+    font-weight:bolder;
+}
+
+/* To avoid the border thickening when it's focused  */
+.form input:focus-visible, .form textarea:focus-visible {
+    outline: none;
+}
+
+div.buttons {
+    justify-content: space-around;
+}
+
+.return {
+    color:var(--medium);
+}
+
+.submit {
+    background-color: var(--medium);
+    color:white;
+}
+

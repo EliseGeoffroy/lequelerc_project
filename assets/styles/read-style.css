@@ -1,6 +1,15 @@
 @import url("general-style.css");
 @import url("questionFeatures-style.css");
+@import url("answer-rating-style.css");
 
+main {
+    align-items:stretch;
+}
+
+.sidebar {
+    margin-top:10%;
+    margin-left:2%;
+}
 
 .specific {
     width: 60%;
@@ -15,7 +24,8 @@
     border-radius:var(--border-radius);
     box-shadow:var(--box-shadow);
     margin:1.5% 0%;
-    padding-left:1%
+    padding-left:1%; 
+    min-width:fit-content;
 }
 
 .answerList{
@@ -30,11 +40,11 @@
 }
 
 .content {
-    padding-bottom:2%;
     margin-bottom:0;
     width:100%;
     text-align: justify;
-    overflow: auto;
+    overflow-y: auto;
+    padding: 0% 1% 2% 1%;
 }
 
 .previousAnswer {
@@ -42,35 +52,7 @@
     border-bottom:var(--border);
 }
 
-.like {
-    
-    display:flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    align-items: baseline;
-    margin: 0.2rem 0rem;
-    
-}
 
-
-.fa-thumbs-up, .fa-thumbs-down {
-    color:var(--medium);
-    margin-right:1.5rem;
-}
-
-.dislikesNumber, .likesNumber {
-    font-weight: bolder;
-    margin: 0rem 1.5rem;
-}
-
-.numbers {
-    margin-right: 1.3rem;
-}
-
-.wholeLike {
-    margin:0% 1%;
-    width:20%;
-}
 
 .date {
     width:100%;
@@ -104,3 +86,8 @@ h2 {
     width:100%;
 }
 
+.inauthenticated-message {
+    text-align:center;
+    padding:0.5rem 0rem;
+    background-color:var(--light-blue);
+}

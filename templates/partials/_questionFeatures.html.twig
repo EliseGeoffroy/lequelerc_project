@@ -1,8 +1,10 @@
     <div class="features flex-row-center">
         <div class="author flex-row-center">
             <img src={{asset(picture)}} class="profilePic"/>
-            Demandé par							
-            <span class="nameAuthor spaceBetweenWords">{{username}}</span>
+            Demandé par	
+            <a href="{{path('app_profile',{'id':authorId})}}">						
+                <span class="nameAuthor spaceBetweenWords" style="color:{{color}}">{{username}}</span>
+            </a>
             le 
             <span class="createdAt spaceBetweenWords"> {{question.createdAt|format_datetime('short','none',locale='fr-fr')}}</span>
             à
