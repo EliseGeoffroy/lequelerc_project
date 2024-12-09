@@ -19,6 +19,7 @@
         <label for='password'>Mot de passe</label>
         <input type="text" id="password" name="_password"/>
         <input type="hidden" name="_csrf_token" value="{{csrf_token('authenticate')}}">
+        <p class="forgotten-pwd"> <a href={{path('app_password_forgotten')}} > Mot de passe oublié</a></p>
         <label class="flex-row-center remember">
             <input type="checkbox" name="_remember_me">
             Se souvenir de moi

@@ -19,7 +19,7 @@ class Question
 
     #[ORM\Column(length: 100)]
     #[Assert\NotBlank(message: 'Votre question doit avoir une question, cela semble évident, non ?')]
-    #[Assert\Length(min: 5, max: 50, minMessage: 'Une question ne peut pas être si courte', maxMessage: 'C\'est une question pas un roman. Pour plus de détails, veuillez utiliser l\'espace détails.')]
+    #[Assert\Length(min: 5, max: 100, minMessage: 'Une question ne peut pas être si courte', maxMessage: 'C\'est une question pas un roman. Pour plus de détails, veuillez utiliser l\'espace détails.')]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::TEXT)]

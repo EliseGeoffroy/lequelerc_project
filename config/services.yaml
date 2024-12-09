@@ -25,3 +25,16 @@ services:
       $authenticator: "@security.authenticator.form_login.main"
   # add more service definitions when explicit configuration is needed
   # please note that last definitions always *replace* previous ones
+
+  App\EventListener\SignUpListener:
+    tags:
+      - name: "doctrine.orm.entity_listener"
+        event: "postPersist"
+        entity: 'App\Entity\User'
+        method: "onPostPersistUser"
+  App\EventListener\ForgetPWDListener:
+    tags:
+      - name: "doctrine.orm.entity_listener"
+        event: "postPersist"
+        entity: 'App\Entity\UserForgetPassword'
+        method: "onPostPersistUserForgetPassword"
