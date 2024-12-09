@@ -7,10 +7,13 @@ use App\Form\UserType;
 use App\Repository\UserRepository;
 use App\Repository\AnswerRepository;
 use App\Repository\QuestionRepository;
+use App\Service\Uploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Validator\Constraints\Image;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
@@ -80,7 +83,7 @@ class ProfileController extends AbstractController
         name: 'app_profile_edit',
         requirements: ['id' => '[\d]+']
     )]
-    public function edit(Request $request, User $user, EntityManagerInterface $em, UserPasswordHasherInterface $passwordHasher): Response
+    public function edit(Request $request, User $user, EntityManagerInterface $em, UserPasswordHasherInterface $passwordHasher, Uploader $upload): Response
     {
         $form = $this->createForm(UserType::class, $user);
 
@@ -88,6 +91,9 @@ class ProfileController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            $picture = $form->get('picture')->getData();
+            $filename = $upload->uploadProfileImage($picture, $user->getUsername(),     $user->getPicture());
+            $user->setPicture($filename);
             $user->setPassword($passwordHasher->hashPassword($user, $user->getPassword()));
 
             $em->persist($user);
@@ -100,7 +106,7 @@ class ProfileController extends AbstractController
             'profile/edit.html.twig',
             [
                 'author' => $user,
-                'my_form' => $form
+                'my_form' => $form->createView()
             ]
         );
     }

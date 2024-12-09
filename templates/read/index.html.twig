@@ -2,7 +2,7 @@
 
 {% block stylesheets %}
 	{{parent()}}
-	<link rel="stylesheet" href="{{asset('styles/read-style.css')}}">
+	{{ encore_entry_link_tags('read') }}
 {% endblock %}
 
 

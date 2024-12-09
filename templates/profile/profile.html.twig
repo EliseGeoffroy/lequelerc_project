@@ -1,7 +1,7 @@
 {% extends 'layout.html.twig' %}
 {% block stylesheets %}
     {{parent()}}
-    <link rel="stylesheet" href={{asset("../assets/styles/profile-style.css")}}>
+    <link rel="stylesheet" href={{asset("styles/profile-style.css")}}>
 {% endblock %}    
 
 
@@ -10,7 +10,7 @@
 
     <div class="general flex-col-center width-100">
         
-        <img src="{{author.picture}}" class="profilePic profilePage"/>
+        <img src="{{asset(author.picture)}}" class="profilePic profilePage"/>
         <h1 class="authorName profilePage">{{author.userName}}</h1>
         <div class="stats flex-row-center">
             <div class="flex-col-center">
