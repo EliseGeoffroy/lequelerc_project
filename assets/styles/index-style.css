@@ -1,0 +1,55 @@
+@import url("questionFeatures-style.css");
+
+.specific {
+    overflow-y:scroll;
+}
+
+h1.greetings, .nameUser {
+    font-family:baskerville;
+    font-family: serif;
+    font-weight: 100;
+    font-size: 35px;
+}
+
+.question {
+    background-color: white;
+    border:var(--border);
+    border-radius:var(--border-radius);
+    box-shadow:var(--box-shadow);
+    margin:1.5% 0%;
+    padding:0% 1%;
+    flex-wrap: wrap;
+}
+
+.questionDetails {
+    width:90%
+}
+
+.rating {
+    width:10%;
+    padding-top:1% 0%;
+  }
+  
+.rating p {
+    text-align: center;
+}
+
+
+
+.title {
+    font-weight:bolder;
+    border-bottom:var(--border);
+    padding-bottom:1%;
+}
+
+.content {
+    border-bottom:groove 2px var(--dark);
+    padding-bottom:2%;
+    margin-bottom:0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+

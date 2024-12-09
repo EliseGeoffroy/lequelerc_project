@@ -1,0 +1,82 @@
+{% extends 'layout.html.twig' %}
+{% block stylesheets %}
+    {{parent()}}
+    <link rel="stylesheet" href={{asset("styles/profile-style.css")}}>
+{% endblock %}    
+
+
+{% block specific %}
+
+
+    <div class="general flex-col-center width-100">
+        
+        <img src="{{asset(author.picture)}}" class="profilePic profilePage"/>
+        <h1 class="authorName profilePage">{{author.userName}}</h1>
+        <div class="stats flex-row-center">
+            <div class="flex-col-center">
+                <i class="fa-solid fa-question fa-xl" style='color:{{author.color}}'></i>
+                <div class="numbers">
+                    <span class="space-between-Words">{{stats.questionsNumber}}</span>
+                    Questions posées
+                </div>
+            </div>
+            <div class="flex-col-center">
+                <i class="fa-solid fa-comment fa-xl" style='color:{{author.color}}'></i>
+                <div class="numbers">
+                    <span class="space-between-Words">{{stats.answersNumber}}</span>
+                    Réponses apportées
+                </div>
+            </div>
+
+        </div>
+        
+        {% if is_granted('USER_EDIT',author) %}
+            <div class="box button personals-edit">
+            <a href="{{path('app_profile_edit',{'id':author.id})}}">
+                Gérer mon profil
+                </a>
+            </div>
+        {% endif %}
+    </div>
+    <div class="details flex-col-baseline width-100">
+    <div class="tab flex-row-center">
+        <a href="{{path('app_profile_questions',{'id':author.id})}}" {% if (app.request.pathinfo() == path('app_profile_questions',{'id':author.id})) %} class="active" {% endif %}>
+        Questions posées</a>
+        <a href="{{path('app_profile_answers',{'id':author.id})}}" {% if (app.request.pathinfo() == path('app_profile_answers',{'id':author.id})) %} class="active" {% endif %}>Réponses apportées</a>
+    </div>
+
+    <ul class="contents">
+        {% if (app.request.pathinfo() == path('app_profile_questions',{'id':author.id})) %}
+            {% for question in questions %}
+                <li class="contents flex-row-center" >
+                    {% include "partials/_question-rating.html.twig"  %}
+                    <div class="width-100">
+                        <p class="title"> {{question.title}}</p>
+                        <p class="content"> {{question.content}}</p>
+                        <p class="createdAt"> {{question.createdAt|format_datetime('short','short',locale='fr')}}</p>
+                    </div>
+                </li>
+                
+            {% endfor %}
+
+        {% else %}
+            {% if (app.request.pathinfo() == path('app_profile_answers',{'id':author.id}))%}
+        
+                {% for answer in answers %}
+                <li class="contents flex-row-center" >
+                    <div class="width-100">
+                        <p class="content"> {{answer.content}}</p>
+                        <p class="createdAt"> {{answer.createdAt|format_datetime('short','short',locale='fr')}}</p>
+                    </div>
+                    {% include "partials/_answer-rating.html.twig" %}
+                </li>
+                
+                {% endfor %}
+            {% endif %}
+        
+        {% endif %}
+    </ul>
+    
+
+    
+{% endblock %}

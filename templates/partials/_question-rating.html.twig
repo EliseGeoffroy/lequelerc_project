@@ -1,0 +1,10 @@
+<div class='rating flex-col-center'>
+	<a href="{{path('app_question_rating',{'id':question.id,'score':+1})}}">
+		<i class="fa-solid fa-arrow-up" {{(question.rating > 0)?'style="color:greenyellow"':''}}></i>
+	</a>
+	<p>{{question.rating}}
+	</p>
+    <a href="{{path('app_question_rating',{'id':question.id,'score':-1})}}">
+		<i class="fa-solid fa-arrow-down" {{(question.rating >= 0)?'':'style="color:red"'}}></i>
+	</a>
+</div>

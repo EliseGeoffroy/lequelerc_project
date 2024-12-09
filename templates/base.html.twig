@@ -1,17 +1,57 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
-        {% block stylesheets %}
-        {% endblock %}
+	<head>
+		<meta charset="UTF-8">
 
-        {% block javascripts %}
-            {% block importmap %}{{ importmap('app') }}{% endblock %}
-        {% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-    </body>
+		<title>Lequelerc</title>
+		<script src="https://kit.fontawesome.com/dabdc32b69.js" crossorigin="anonymous"></script>
+		<link rel="preconnect" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+		{% block stylesheets %}
+            {{ encore_entry_link_tags('base') }}
+		{% endblock %}
+
+		{# {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+																																																																																																            {% block importmap %}{{ importmap('app') }}{% endblock %}
+																																																																																																        {% endblock %} #}
+	</head>
+	<body>
+		<header class="flex-row-center">
+			<a href="{{path('app_index')}}" class="trend">
+				<i class="fa-solid fa-eye" style="color: #143a6c;"></i>
+				Lequelerc-voyant
+			</a>
+			<nav class="flex-row-center">
+				<div class="searchBar flex-row-center">
+					<i class="fa-solid fa-magnifying-glass fa-rotate-90" style="color: #afb0b1;"></i>
+					<input type="search" class="searchBar" placeholder="Rechercher dans Lequelerc"/>
+				</div>
+				{% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+					<a href="{{path('app_profile',{'id':app.user.id})}}" {% if (app.request.pathinfo()==path('app_profile',{'id':app.user.id}))%} class="active navItem" {% else %} class="navItem" {% endif %}>Mon Profil</a>
+					<a href="{{path('app_signOut')}}" {% if (app.request.pathinfo()==path('app_signOut'))%} class="active navItem" {% else %} class="navItem" {% endif %}>Déconnexion</a>
+				{% else %}
+					<a href="{{path('app_signIn')}}" {% if (app.request.pathinfo()==path('app_signIn')) %} class="active navItem" {% else %} class="navItem" {% endif %}>
+						Connexion</a>
+					<a href="{{path('app_signUp')}}" {% if (app.request.pathinfo()==path('app_signUp')) %} class="active navItem" {% else %} class="navItem" {% endif %}>Inscription</a>
+				{% endif %}
+				
+			</nav>
+		</header>
+		<main>
+			{% block main %}
+				Affichage base
+			{% endblock %}
+			
+		</main>
+		<div class="flex-col-center">
+			{% for label,messages in app.flashes %}
+				{% for message in messages %}
+					<span class="flash">{{message}}</span>
+				{% endfor %}
+			{% endfor %}
+		</div>
+		<footer class="flex-row-center">
+			<div class="common">Lily Creatives Common</div>
+		</footer>
+	</body>
 </html>

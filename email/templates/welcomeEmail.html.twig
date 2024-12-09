@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+{% apply inline_css (source('@email_css/email-style.css.twig')) %}
+<body class="flex-col-center">
+    <div class="message">
+        <h1 class="test"> Bienvenue {{email.toName}} dans la grande famille des Lequeler-voyants! </h1>
+        <p> C'est avec plaisir et gratitude que nous t'accueillons dans notre communauté. Nous avons hâte de profiter de tes lumières et de ta clairvoyance pour éclairer ce monde de plus en plus sombre d'ignorance.</p>
+        <p> Commence dès maintenant à illuminer nos vies</p>
+        <p>  
+            <a href={{url('app_question_form')}} class="button"> Pose ta question </a>
+        </p>
+    </div>
+</body>
+{% endapply %}
+</html>

@@ -1,0 +1,50 @@
+{% extends 'layout.html.twig' %}
+
+{% block stylesheets %}
+	{{parent()}}
+	{{ encore_entry_link_tags('read') }}
+{% endblock %}
+
+
+{% block specific %}
+	<div class="question">
+		<p class="title">{{question.title}}
+		</p>
+		<p class="content">{{question.content}}
+		</p>
+		{% include "partials/_questionFeatures.html.twig" with {from:'read', picture : question.author.picture , username : question.author.username, color:question.author.color, authorId:question.author.id} %}
+	</div>
+
+	<div {% if ( answers|length != 0)%} class="answerList"{% endif %}>
+		{% for answer in answers %}
+			<div class="previousAnswer flex-col-center">
+				<h2> 
+					<a href="{{path('app_profile',{id:answer.authorId})}}">
+						<span class="nameAuthor spaceBetweenWords" style="color:{{answer.authorColor}}">{{answer.authorUsername}}</span>
+					</a>
+					a répondu :
+				</h2>
+				<div class="answerContent flex-row-center">
+					<div class="flex-col-center width-100">
+						<p class="content">	{{ answer.content }} </p>
+						<div class="date">{{answer.createdAt|ago|capitalize}}</div>
+					</div>
+					{% include "partials/_answer-rating.html.twig" %}
+				</div>
+			</div>
+		{% endfor %}
+		
+	</div>
+{% if my_form is defined %}
+	{{form_start(my_form, {'attr':{'class':'newAnswer  flex-row-center'}})}}
+		{{form_widget(my_form.content, {'attr':{'class':'contentAnswer'}})}}
+		{{form_widget(my_form.submit, {'attr':{'class':'submit'}})}}
+	{{form_end(my_form)}}
+{% else %}
+	<div class='box inauthenticated-message'>
+		Il faut être connecté pour pouvoir répondre. Vous savez ce qu'il vous reste à faire ;)
+	</div>
+{% endif %}
+
+
+{% endblock %}

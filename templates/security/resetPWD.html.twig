@@ -1,0 +1,15 @@
+{% extends 'base.html.twig'%}
+{% block stylesheets %}
+    {{parent()}}
+    {{ encore_entry_link_tags('security') }}
+{% endblock %}
+
+{% block main %}
+{{form_start(my_form, { 'attr':{'class':"form flex-col-center signIn"}})}}
+    {# {{form_label(my_form.password)}} #}
+    {{form_widget(my_form.password)}}
+    {{form_errors(my_form.password)}}
+    <button type="submit" class="submit"> Modifier mon mot de passe </button>
+{{form_end(my_form)}}
+
+{% endblock %}

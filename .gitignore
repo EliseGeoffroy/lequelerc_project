@@ -23,3 +23,31 @@
 /public/assets/
 /assets/vendor/
 ###< symfony/asset-mapper ###
+
+/.env
+node_modules/.yarn-integrity
+node_modules/.bin/yarn
+node_modules/.bin/yarn.cmd
+node_modules/.bin/yarnpkg
+node_modules/.bin/yarnpkg.cmd
+node_modules/yarn/LICENSE
+node_modules/yarn/package.json
+node_modules/yarn/preinstall.js
+node_modules/yarn/README.md
+node_modules/yarn/bin/yarn
+node_modules/yarn/bin/yarn.cmd
+node_modules/yarn/bin/yarn.js
+node_modules/yarn/bin/yarnpkg
+node_modules/yarn/bin/yarnpkg.cmd
+node_modules/yarn/lib/cli.js
+node_modules/yarn/lib/v8-compile-cache.js
+
+###> symfony/webpack-encore-bundle ###
+/node_modules/
+/public/build/
+npm-debug.log
+yarn-error.log
+###< symfony/webpack-encore-bundle ###
+
+
+/public/profiles/

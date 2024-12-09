@@ -1,0 +1,35 @@
+{% extends 'layout.html.twig' %}
+
+{% block stylesheets %}
+	{{parent()}}  
+	{{ encore_entry_link_tags('index') }}
+{% endblock %}
+
+{% block specific %}
+
+	{% if is_granted ('IS_AUTHENTICATED_REMEMBERED') %}
+		<h1 class="greetings"> Bonjour 
+			<span class='space-between-words nameUser' style='color:{{app.user.color}}'>{{app.user.username}}</span>
+			!
+		</h1>
+	{% else %}
+		<h1 class="greetings"> Bonjour !</h1>
+	{% endif %}
+
+
+	<ul class="QuestionList flex-col-stretch">
+		{% for question in questions %}
+			<li class="question flex-row-center">
+				{% include "partials/_question-rating.html.twig" %}
+				<a href="{{path('app_read',{'idQuestion':question.id})}}" class='questionDetails'>
+					<h2 class="title">{{question.title}}
+					</h2>
+					<p class="content">{{question.content}}
+					</p>
+					
+				</a>
+				{% include "partials/_questionFeatures.html.twig" with {from:'home', picture : question.picture , username : question.username, color : question.color, authorId : question.authorId} %}
+			</li>
+		{% endfor %}
+	</ul>
+{% endblock %}
