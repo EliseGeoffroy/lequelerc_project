@@ -5,19 +5,22 @@ namespace App\Form;
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\Image;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ColorType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class UserType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $user = $builder->getData();
         $builder
             ->add('username', TextType::class, [
                 'label' => 'Nom d\'utilisateur',
@@ -25,11 +28,16 @@ class UserType extends AbstractType
                     'class' => 'form-field flex-col-center width-100'
                 ]
             ])
-            ->add('picture', UrlType::class, [
-                'label' => 'Lien vers votre image de profil',
+            ->add('picture', FileType::class, [
+                'constraints' => [
+                    new Image(['allowPortrait' => true, 'allowSquare' => true, 'allowLandscape' => false])
+                ],
+                'label' => 'Charger une photo de profil',
                 'row_attr' => [
-                    'class' => 'form-field flex-col-center width-100'
-                ]
+                    'class' => 'form-field flex-col-center width-100 profile-picture'
+                ],
+                'required' => !$user->getPicture(),
+                'mapped' => false
             ])
             ->add('color', ColorType::class, [
                 'label' => 'Couleur associée à votre compte',

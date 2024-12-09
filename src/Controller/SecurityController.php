@@ -10,17 +10,20 @@ use App\Form\ResetPasswordType;
 use App\Repository\UserRepository;
 use App\Form\UserForgetPasswordType;
 use App\Repository\UserForgetPasswordRepository;
+use App\Service\Uploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
 use Symfony\Component\Security\Http\Authenticator\FormLoginAuthenticator;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
+use Symfony\Component\Validator\Constraints\Image;
 
 class SecurityController extends AbstractController
 {
@@ -28,16 +31,23 @@ class SecurityController extends AbstractController
     public function __construct(private FormLoginAuthenticator $authenticator) {}
 
     #[Route('/security/signUp', name: 'app_signUp')]
-    public function signUp(EntityManagerInterface $em, Request $request, UserPasswordHasherInterface $passwordHasher, UserAuthenticatorInterface $userAuthenticator): Response
+    public function signUp(EntityManagerInterface $em, Request $request, UserPasswordHasherInterface $passwordHasher, UserAuthenticatorInterface $userAuthenticator, Uploader $upload): Response
     {
         $user = new User();
 
         $form = $this->createForm(UserType::class, $user);
 
+
         $form->handleRequest($request);
+
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            $picture = $form->get('picture')->getData();
+            $filename = $upload->uploadProfileImage($picture, $user->getUsername(), $user->getPicture());
+            $user->setPicture($filename);
+
+            $user->setPicture($filename);
             $user->setPassword($passwordHasher->hashPassword($user, $user->getPassword()));
             $em->persist($user);
             $em->flush();
