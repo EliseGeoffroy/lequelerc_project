@@ -46,8 +46,6 @@ class SecurityController extends AbstractController
             $picture = $form->get('picture')->getData();
             $filename = $upload->uploadProfileImage($picture, $user->getUsername(), $user->getPicture());
             $user->setPicture($filename);
-
-            $user->setPicture($filename);
             $user->setPassword($passwordHasher->hashPassword($user, $user->getPassword()));
             $em->persist($user);
             $em->flush();
